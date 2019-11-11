@@ -1,0 +1,18 @@
+{% extends "layout.html" %} {% block content %}
+<article class="media content-section">
+  <img
+    class="rounded-circle article-img"
+    src="{{ url_for('static', filename='media/' + mail.author.image_file) }}"
+  />
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="#">{{ mail.author.username }}</a>
+      <small class="text-muted">{{
+        mail.date_posted.strftime("%Y-%m-%d")
+      }}</small>
+    </div>
+    <h2 class="article-title">{{ mail.title }}</h2>
+    <p class="article-content">{{ mail.content }}</p>
+  </div>
+</article>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for mail in mails.items %}
+    {% if mail.content|length > 50 %}
+      {% set con = mail.content[:50] + "..." %}
+    {% else %}
+      {% set con = mail.content %}
+    {% endif %}
+      <a href="{{ url_for('mail', mail_id=mail.id) }}">
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='media/' + mail.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata"> 
+              <a class="mr-2" href="#">{{ mail.author.username }}</a>
+              <a class="mr-2" href="#">{{ mail.author.email }}</a>
+              <small class="text-muted">{{ mail.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+              <h2>{{ mail.title }}</h2>
+              <p class="article-content">{{ con }}</p>
+            </div>
+          </div>
+        </article>
+      </a>
+    {% endfor %}
+    {% for page_num in mails.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if mails.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('inbox', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('inbox', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock content %}
